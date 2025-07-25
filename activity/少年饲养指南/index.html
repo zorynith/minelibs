@@ -5,27 +5,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <link rel="icon" type="image/png" href="image/icon/favicon.ico">
   <title>少年饲养指南</title>
-
-  <style>
-  *:focus {
-    outline: none;
-    box-shadow: none;
-  }
-  *:active {
-    background-color: initial;
-  }
-</style>
-  
-  <style>
-  button:focus {
-    outline: none; /* 移除轮廓线 */
-  }
-  button:active {
-    background-color: initial !important; /* 防止点击时背景变色 */
-  }
-</style>
-  
     <style>
+        /* 全局移动端优化 */
+    * {
+      -webkit-tap-highlight-color: transparent !important;
+      outline: none !important;
+      box-sizing: border-box;
+    }
+    
+    /* 移除所有点击高亮效果 */
+    a, button, .top-button, .navbar a, .bottom-btn, .bottom-icon-btn {
+      -webkit-tap-highlight-color: transparent !important;
+    }
+    
+    a:active, a:focus,
+    button:active, button:focus,
+    .top-button:active, .top-button:focus,
+    .navbar a:active, .navbar a:focus,
+    .bottom-btn:active, .bottom-btn:focus,
+    .bottom-icon-btn:active, .bottom-icon-btn:focus {
+      outline: none !important;
+      box-shadow: none !important;
+      background-color: transparent !important;
+    }
+    
         /* 禁止所有元素拖拽 */
         * {
             user-drag: none;
@@ -319,12 +322,20 @@
       flex-shrink: 0;
       font-size: 1.1rem; /* 底部按钮字体 */
       white-space: nowrap; /* 防止文字换行 */
+      /* 新增：移除点击效果 */
+      -webkit-tap-highlight-color: transparent;
+      outline: none;
     }
 
-   .price-number {
-     font-size: 2.5rem; /* 价格尺寸 */
-   }
+    /* 新增：移除底部按钮的焦点和活动状态效果 */
+    .bottom-btn:focus,
+    .bottom-btn:active {
+      outline: none !important;
+      box-shadow: none !important;
+      background: linear-gradient(to right, white, gold) !important;
+    }
 
+    /* 新增：图片按钮点击效果优化 */
     .bottom-icon-btn {
       background: none;
       border: none;
@@ -335,6 +346,15 @@
       margin-top: -40px; /* 将图片按钮上移 */
       margin-bottom: -40px; /* 保持底部对齐 */
       z-index: 2; /* 确保在按钮上方 */
+      -webkit-tap-highlight-color: transparent;
+      outline: none;
+    }
+
+    .bottom-icon-btn:focus,
+    .bottom-icon-btn:active {
+      outline: none !important;
+      box-shadow: none !important;
+      background: none !important;
     }
 
     .bottom-icon-btn img {
@@ -342,7 +362,12 @@
       height: 100%;
       max-height: 125px;
       object-fit: contain;
+      -webkit-tap-highlight-color: transparent;
     }
+
+   .price-number {
+     font-size: 2.5rem; /* 价格尺寸 */
+   }
   </style>
 </head>
 <body>
