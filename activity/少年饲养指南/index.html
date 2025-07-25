@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <link rel="icon" type="image/png" href="image/icon/favicon.ico">
+  <title>少年饲养指南</title>
+    <style>
+        /* 禁止所有元素拖拽 */
+        * {
+            user-drag: none;
+            -webkit-user-drag: none;
+            user-select: none;
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+        }
+    </style>
+  <body oncontextmenu=self.event.returnValue=false onselectstart="return false">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background-color: #000;
+      color: #fff;
+      font-family: sans-serif;
+      height: 100%;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+
+    * {
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      box-sizing: border-box;
+    }
+
+    *::-webkit-scrollbar {
+      display: none;
+    }
+
+    .top-image {
+      position: relative;
+      width: 100%;
+      height: 60vh;
+      background-image: url('image/top.png');
+      background-size: cover;
+      background-position: center;
+      z-index: 1;
+    }
+
+    .top-button {
+      position: absolute;
+      bottom: 80px;
+      left: 20px;
+      padding: 16px 28px;
+      font-size: 1.2rem;
+      border: 1px solid gold;
+      border-radius: 12px;
+      color: gold;
+      background: rgba(255, 215, 0, 0.1);
+      backdrop-filter: blur(10px);
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 0 4px gold;
+      transition: all 0.3s;
+      z-index: 10;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .top-button:hover {
+      background: rgba(255, 215, 0, 0.2);
+    }
+
+    .transition-bar {
+      position: relative;
+      margin-top: -40px;
+      height: 40vh;
+      background: rgba(100, 100, 100, 0.3);
+      backdrop-filter: blur(50px);
+      display: flex;
+      align-items: center;
+      overflow-x: auto;
+      padding: 0 20px;
+      gap: 16px;
+      z-index: 2;
+      scroll-behavior: smooth;
+    }
+
+    .photo-item {
+      flex: 0 0 auto;
+      height: 90%;
+      aspect-ratio: 479 / 719;
+      border-radius: 10px;
+      border: 1px solid gold;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .content {
+      padding: 20px 16px;
+      max-width: 720px;
+      margin: 0 auto;
+      line-height: 1.6;
+      position: relative;
+      z-index: 1;
+      padding-bottom: 180px;
+    }
+
+    .section {
+      background: rgba(100, 100, 100, 0.3);
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .section h1, .section h2, .section h3 {
+      color: gold;
+      font-size: 1.2rem;
+      margin-top: 0;
+      margin-bottom: 12px;
+    }
+
+    .info-row {
+      display: flex;
+      gap: 10px;
+      flex-direction: row;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .info-item {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      overflow: hidden;
+      text-align: center;
+      flex: 1;
+    }
+
+    .info-item img {
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      display: block;
+      border-radius: 12px 12px 0 0;
+      object-fit: cover;
+    }
+
+    .info-item p {
+      margin: 6px 0;
+      font-size: 0.75rem;
+      color: gold;
+    }
+
+    .divider {
+      height: 1px;
+      background: rgba(255, 255, 255, 0.2);
+      margin: 16px 0;
+    }
+
+    .card-row {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .card-item {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .card-item img {
+      width: 60px;
+      aspect-ratio: 1 / 1;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+
+    .card-text {
+      flex: 1;
+    }
+
+    .card-text h4 {
+      margin: 0;
+      font-size: 0.95rem;
+      color: white;
+      font-weight: bold;
+    }
+
+    .card-text p {
+      margin: 6px 0 0;
+      font-size: 0.75rem;
+      color: #ccc;
+    }
+
+    .rectangle-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      justify-content: space-between;
+    }
+
+    .info-rect {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      padding: 12px;
+      width: calc(50% - 8px);
+      aspect-ratio: 3 / 4;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+
+    .info-rect h4 {
+      margin: 0 0 4px;
+      font-size: 0.9rem;
+      color: gold;
+    }
+
+    .info-rect p {
+      margin: 0 0 8px;
+      font-size: 0.75rem;
+      color: white;
+    }
+
+    .info-rect img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      object-fit: cover;
+      flex-grow: 1;
+    }
+
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 9vh;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      z-index: 1000;
+      color: white;
+    }
+
+    .navbar img {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* 修改后的底部导航栏样式 */
+    .bottom-navbar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(10px);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start; /* 顶部对齐 */
+      padding: 10px 16px;
+      z-index: 1000;
+      color: white;
+      height: auto; /* 高度自适应 */
+    }
+
+    .bottom-navbar h3 {
+      margin: 0;
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: white;
+      margin-bottom: 8px; /* 增加间距 */
+    }
+
+    .bottom-buttons {
+      display: flex;
+      gap: 13px; /* 减少间隙 */
+      width: 100%;
+      align-items: center;
+      justify-content: flex-start;
+      flex-wrap: nowrap; /* 防止换行 */
+    }
+
+    .bottom-btn {
+      padding: 9.5px 30px; /* 减少内边距 */
+      border-radius: 999px;
+      background: linear-gradient(to right, white, gold);
+      color: black;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      flex-shrink: 0;
+      font-size: 1.1rem; /* 底部按钮字体 */
+      white-space: nowrap; /* 防止文字换行 */
+    }
+
+   .price-number {
+     font-size: 2.5rem; /* 价格尺寸 */
+   }
+
+    .bottom-icon-btn {
+      background: none;
+      border: none;
+      height: 125px;
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+      margin-top: -40px; /* 将图片按钮上移 */
+      margin-bottom: -40px; /* 保持底部对齐 */
+      z-index: 2; /* 确保在按钮上方 */
+    }
+
+    .bottom-icon-btn img {
+      width: auto;
+      height: 100%;
+      max-height: 125px;
+      object-fit: contain;
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <a href="javascript:history.back(-1)">
+      <img src="image/back.png" alt="返回">
+    </a>
+    <h4>少年饲养指南</h4>
+    <a onclick="sharePage()">
+      <img src="image/share.png" alt="分享">
+    </a>
+  </div>
+
+  <div class="top-image">
+    <button class="top-button">少年饲养指南</button>
+  </div>
+
+  <div class="transition-bar">
+    <div class="photo-item" style="background-image: url('image/内藏惊喜.webp');"></div>
+    <div class="photo-item" style="background-image: url('image/苗疆少年.webp');"></div>
+    <div class="photo-item" style="background-image: url('image/光与暗.webp');"></div>
+    <div class="photo-item" style="background-image: url('image/夏日清凉.webp');"></div>
+    <div class="photo-item" style="background-image: url('image/歇一会吧.webp');"></div>
+    <div class="photo-item" style="background-image: url('image/像素日记.webp');"></div>
+    <div class="photo-item" style="background-image: url('image/少年剑客.webp');"></div>
+    <div class="photo-item" style="background-image: url('image/白日倦意.webp');"></div>
+    <div class="photo-item" style="background-image: url('image/竹影剑心.webp');"></div>
+    <div class="photo-item" style="background-image: url('image/傲主独尊.webp');"></div>
+    <div class="photo-item" style="background-image: url('image/向阳而生.webp');"></div>
+    <div class="photo-item" style="background-image: url('image/木马旅行.webp');"></div>
+    <div class="photo-item" style="background-image: url('image/沧海星梦.webp');"></div>
+    <div class="photo-item" style="background-image: url('image/烘焙时光.webp');"></div>
+    <div class="photo-item" style="background-image: url('image/王子认证.webp');"></div>
+    <div class="photo-item" style="background-image: url('image/秋年回忆.webp');"></div>
+    <div class="photo-item" style="background-image: url('image/秘密花园.webp');"></div>
+    <div class="photo-item" style="background-image: url('image/穹羽圣途.webp');"></div>
+    <div class="photo-item" style="background-image: url('image/绵云幻旅.webp');"></div>
+    <div class="photo-item" style="background-image: url('image/雨中回眸.webp');"></div>
+    <div class="photo-item" style="background-image: url('image/鹿羿大隐藏.webp');"></div>
+  </div>
+
+  <div class="content">
+    <div class="section">
+      <h1>任务奖励</h1>
+      <div class="info-row">
+        <div class="info-item">
+          <img src="image/avatar.png" alt="钻石头像背景">
+          <p>钻石头像背景</p>
+        </div>
+        <div class="info-item">
+          <img src="image/expression.png" alt="表情包">
+          <p>表情包</p>
+        </div>
+        <div class="info-item">
+          <img src="image/topic.png" alt="动态主题套装">
+          <p>动态主题套装</p>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="card-row">
+        <div class="card-item">
+          <img src="image/task-1.webp" alt="task-1">
+          <div class="card-text">
+            <h4>少年饲养指南</h4>
+            <p>1抽必得勋章,可应用为评论背景&动态卡片。</p>
+          </div>
+        </div>
+        <div class="card-item">
+          <img src="image/task-2.webp" alt="task-2">
+          <div class="card-text">
+            <h4>少年饲养指南典藏卡</h4>
+            <p>少年饲养指南卡池完成12抽即可领取</p>
+          </div>
+        </div>
+        <div class="card-item">
+          <img src="image/task-3.webp" alt="task-3">
+          <div class="card-text">
+            <h4>头像框</h4>
+            <p>少年饲养指南卡池抽到任意1张隐藏款立绘即可领取</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h1>活动攻略</h1>
+      <div class="rectangle-grid">
+        <div class="info-rect">
+          <h4>收藏集专属钻石头像</h4>
+          <p>背包中获得的任意卡牌即可设置为钻石头像</p>
+          <img src="image/activity-1.png" alt="activity-1">
+        </div>
+        <div class="info-rect">
+          <h4>卡牌可设为空间头图</h4>
+          <p>背包中获得的任意卡牌即可设置为空间头图</p>
+          <img src="image/activity-2.png" alt="activity-2">
+        </div>
+        <div class="info-rect">
+          <h4>卡牌可设为开屏</h4>
+          <p>大会员可将图鉴中获得的任意卡牌设为开屏画面</p>
+          <img src="image/activity-3.png" alt="activity-3">
+        </div>
+        <div class="info-rect">
+          <h4>勋章在评论区展示</h4>
+          <p>将拥有的等级勋章设为评论勋章在所有的社区评论中展示</p>
+          <img src="image/activity-4.png" alt="activity-4">
+        </div>
+        <div class="info-rect">
+          <h4>卡牌可设为小组件</h4>
+          <p>背包中获得的任意卡牌可设置为桌面小组件</p>
+          <img src="image/activity-5.png" alt="activity-5">
+        </div>
+        <div class="info-rect">
+          <h4>收藏卡转赠</h4>
+          <p>获得的收藏卡可进行转赠</p>
+          <img src="image/activity-6.png" alt="activity-6">
+        </div>
+        <div class="info-rect">
+          <h4>卡牌可设为壁纸</h4>
+          <p>背包中获得的任意卡牌可设置为手机壁纸</p>
+          <img src="image/activity-7.png" alt="activity-7">
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>玩法规则</h2>
+      <h4>· 收藏家规则</h4>
+      <p>1、榜单积分计算说明:单用户积分公式=∑A*B*C，积分为单用户获得的所有卡牌A*B*C的累加值；
+<br>A=用户当前单种卡牌持有数,实时更新；
+<br>B=1/实际卡持有率;实际卡持有率=活动期间单种卡总数/活动期间所有卡总数;B值10分钟更新一次,更新时可能导致积分波动；
+<br>C=1/活动放出总卡种数,随着轮次开启,活动放出总卡种数累加增大。</p>
+      <p>2、榜单积分计算范围:仅奖池内的卡牌计入积分。</p>
+      <p>3、积分越高,等级越高;每个等级都有相应的动态区&评论区装扮勋章;等级变更时,装扮勋章会自动变更。</p>
+      <p>4、每个等级编号根据先到先得逻辑,编号按照获得顺序排列,如第一位获得LV5的用户获得LV5的00001编号,编号不会回退且仅展示最高等级的勋章。等级编号将在收藏馆全部收藏集的封面图下方展示。</p>
+      <p>5、每张卡牌都有其对应的卡牌编号,用户可在已有的收藏集卡牌中选择一个卡牌编号作为自己的动态区&评论区的装扮编号。</p>
+      <p>tips:
+<br>1、活动期间,积分会因卡池总量和单张卡牌持有率的波动而发生变化,可能会影响收藏家的积分档位；
+<br>2、转赠卡牌,对应的收藏排行和勋章积分也对应下降；
+<br>3、收藏榜仅展示排名前1000的用户,依据的积分实时更新。</p>
+      <h4>· 任务奖励</h4>
+      <p>1、领取的头像框,表情包奖励暂无法转赠,卡牌可正常转赠。</p>
+      <p>2、仅自己抽到的卡牌会计入收集度奖励兑换数据中，被赠送或领取的奖励卡牌不会计入。</p>
+      <p>3、收集度奖励需及时手动领取,活动或收集奖励任务正常结束下线引起的奖励失效,无法进行补偿。</p>
+      <p>4、如配有“领实体”功能,可配送区域为中国大陆地区（除港澳台）。</p>
+      <h4>· 限量卡介绍</h4>
+      <p>若奖池中存在限量卡,则限量卡按库存上限进行随机编号发放,用户获得的卡牌编号为随机乱序。奖池中的非限量卡编号仍然按顺序从小到大依次发放。</p>
+      <h4>· 限量卡池介绍</h4>
+      <p>若奖池类型为限量奖池,则所有限量卡全部被抽空,库存为0时,奖池关闭;关闭时用户剩余未使用抽奖次数将被自动使用。</p>
+    </div>
+  </div>
+
+  <div class="bottom-navbar">
+    <h3>￥<span class="price-number">9.9</span> / 抽</h3>
+    <div class="bottom-buttons">
+      <a href="wxp://f2f1r0o84tw515rvzdfccjfp8hqq8qbdlxqwzsjsrcrv6qyaurtndr8cidzxhbmjaarn/">
+        <button class="bottom-btn">抽一张</button>
+      </a>
+      <a href="wxp://f2f1qx2m3uff9jdmyvvspnqprcofa3gvq7r91tednnvmz4jsc5d0dx8bw5cadzg6t147/">
+        <button class="bottom-btn">抽十张</button>
+      </a>
+      <a href="https://www.bilibili.com/h5/garb/card-game/home?navhide=1&auto_media_playback=1&f_source=activity&from=entrance" class="bottom-icon-btn">
+        <img src="image/立即对战.png" alt="立即对战">
+      </a>
+    </div>
+  </div>
+    <script>
+        // 禁止开发者工具
+        // 监听按键阻止F12/Ctrl+Shift+I
+        document.addEventListener('keydown', function(e) {
+            // 禁用 F12
+            if (e.key === 'F12' || e.keyCode === 123) {
+                e.preventDefault();
+                alert('开发者工具打开失败');
+            }
+            // 禁用 Ctrl+Shift+I (Windows) 和 Cmd+Opt+I (Mac)
+            if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.keyCode === 73) {
+                e.preventDefault();
+                alert('开发者工具打开失败');
+            }
+            // 禁用 Ctrl+Shift+J
+            if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.keyCode === 74) {
+                e.preventDefault();
+            }
+            // 禁用 Ctrl+U
+            if ((e.ctrlKey || e.metaKey) && e.keyCode === 85) {
+                e.preventDefault();
+            }
+        });
+
+        // 检测开发者工具打开状态（定时检查）
+        let devtoolsOpen = false;
+        const devtoolsCheck = new Image();
+        Object.defineProperty(devtoolsCheck, 'id', {
+            get: () => {
+                devtoolsOpen = true;
+                console.clear();
+                alert('未知错误');
+                document.body.innerHTML = '<h1>开发者工具打开失败</h1>';
+            }
+        });
+
+        setInterval(() => {
+            devtoolsOpen = false;
+            console.log(devtoolsCheck);
+            if (devtoolsOpen) {
+                // 检测到开发者工具时强制关闭页面
+                window.location.href = 'about:blank';
+            }
+        }, 1000);
+
+        // 增强拖拽禁止
+        // 防止鼠标选中内容
+        document.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+        });
+        
+        // 防止右键菜单
+        document.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+        });
+    </script>
+<script>
+  function sharePage() {
+    if (navigator.share) {
+      navigator.share({
+        title: document.title,
+        text: '分享 少年饲养指南',
+        url: window.location.href
+      }).then(() => {
+        console.log('分享成功');
+      }).catch((error) => {
+        console.error('分享失败', error);
+      });
+    } else {
+      alert('当前浏览器不支持分享功能');
+    }
+  }
+</script>
+</body>
+</html>
