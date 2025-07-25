@@ -6,6 +6,23 @@
   <link rel="icon" type="image/png" href="image/icon/favicon.ico">
   <title>少年饲养指南</title>
     <style>
+        /* 基础样式 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none; /* 禁止iOS长按菜单 */
+      user-select: none; /* 禁止文本选择 */
+    }
+    
+        /* 禁止图片保存的样式 */
+    img {
+      pointer-events: none; /* 禁用图片事件 */
+      -webkit-user-drag: none;
+      user-drag: none;
+    }
+    
         /* 全局移动端优化 */
     * {
       -webkit-tap-highlight-color: transparent !important;
@@ -595,7 +612,7 @@
     if (navigator.share) {
       navigator.share({
         title: document.title,
-        text: '分享 少年饲养指南',
+        text: '分享：少年饲养指南',
         url: window.location.href
       }).then(() => {
         console.log('分享成功');
@@ -603,7 +620,7 @@
         console.error('分享失败', error);
       });
     } else {
-      alert('当前浏览器不支持分享功能');
+      alert('当前浏览器不支持此功能');
     }
   }
 </script>
