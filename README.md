@@ -7,3 +7,5 @@ wget -qO-  https://minelibs.eu.org/script/sh/GetRoot.sh | bash
 ```
 ./dist/proot -S . /bin/bash
 ```
+
+[爱发电主页](https://afdian.tv/a/minelibs)
